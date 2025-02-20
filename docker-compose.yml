@@ -1,0 +1,89 @@
+services:
+
+  postgres_13:
+    image: postgres:13
+    container_name: postgres_13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres #Change this to your database name
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_13_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    restart: always
+
+  postgres_14:
+    image: postgres:14
+    container_name: postgres_14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres #Change this to your database name
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_14_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    restart: always
+
+  apache_php56:
+    image: php:5.6-apache
+    container_name: apache_php56
+    ports:
+      - "8080:80"
+    volumes:
+      - "./www:/var/www/html"
+    networks:
+      - app_network
+    restart: always
+
+  apache_php7:
+    image: php:7-apache
+    container_name: apache_php7
+    ports:
+      - "8081:80"
+    volumes:
+      - "./www:/var/www/html"
+    networks:
+      - app_network
+    restart: always
+
+  apache_php8:
+    image: php:8-apache
+    container_name: apache_php8
+    ports:
+      - "8082:80"
+    volumes:
+      - "./www:/var/www/html"
+    networks:
+      - app_network
+    restart: always
+
+  mysql8:
+    image: mysql:8
+    container_name: mysql8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql #Change this to your database name
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql8_data:/var/lib/mysql
+    networks:
+      - app_network
+    restart: always
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_13_data:
+  postgres_14_data:
+  mysql8_data:
